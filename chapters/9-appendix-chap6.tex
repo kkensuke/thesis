@@ -1,0 +1,404 @@
+\chapter{第\ref{chap:lower-bound}章の補足}
+
+
+
+\section{定理\ref{cor:covariance}の略証}\label{sec:prf-covariance}
+\begin{screen}
+\begin{corollary}
+    （論文~\cite{cerezo2021cost}の Supplementary Note 5, B の拡張された結果）
+    図~\ref{fig:circuit-setting}の回路に対して、次の式が成り立つ。
+    \begin{align}
+        \E_{V(\bs{\th})}[\pd_\nu\ell_i\,\cdot\,\pd_\nu\ell_j] = \frac{2^{2s-1}\Delta\Omega}{\qty(2^{2s}-1)^2}\qty(\Tr\qty[\rho_i^{(h)}\rho_j^{(h)}]-\frac{1}{2^s})
+    \end{align}
+    ただし、$\Delta\Omega = \operatorname{Tr}[(\widehat{O}_\rmL^{(h)})^2] - \frac{1}{2^s}(\operatorname{Tr}[\widehat{O}_\rmL^{(h)}])^2$
+\end{corollary}
+\end{screen}
+
+\begin{proof}
+    まず、論文~\cite{cerezo2021cost}の「Supplementary Note 4: Variance of the cost function partial derivative」の結果を拡張する。具体的には、$\rho \rightarrow \rho_i$ というように入力状態にインデックスを付け、勾配の共分散を計算する。
+    \begin{screen}
+        \begin{theorem}\label{thm:supplementary-4}
+            （論文~\cite{cerezo2021cost}の「Supplementary Note 4: Variance of the cost function partial derivative」の拡張された結果）
+            \begin{align}
+                \E_{V(\bs{\th})}[\pd_\nu\ell_i\,\cdot\,\pd_\nu\ell_j]
+                &= \frac{2^{m-1} \Tr\left[\sigma_\nu^2\right]}{\left(2^{2 m}-1\right)^2} 
+                \sum_{\substack{\vb*{pq}\\\vb*{p^{\prime} q^{\prime}}}}
+                \expval{\Delta \Omega_{i;\vb*{pq}}^{j;\vb*{p^{\prime} q^{\prime}}}}_{V_\rmR}
+                \expval{\Delta\Psi_{i;\vb*{pq}}^{j;\vb*{p^{\prime} q^{\prime}}}}_{V_{\rmL}},\\
+                \Delta\Omega_{\vb*{pq}}^{\vb*{p^{\prime} q^{\prime}}}
+                &:= \Tr\qty[\Omega_{\vb*{qp}} \Omega_{\vb*{p^{\prime} q^{\prime}}}]-\frac{\Tr\qty[\Omega_{\vb*{qp}}] \Tr\qty[\Omega_{\vb*{p^{\prime} q^{\prime}}}]}{2^m}, \nonumber\\
+                \Delta \Psi_{i;\vb*{pq}}^{j;\vb*{p^{\prime} q^{\prime}}}
+                &:= \Tr\qty[\Psi_{i;\vb*{pq}} \Psi_{j;\vb*{p^{\prime} q^{\prime}}}]-\frac{\Tr\qty[\Psi_{i;\vb*{pq}}] \Tr\qty[\Psi_{j;\vb*{p^{\prime} q^{\prime}}}]}{2^m},\nonumber\\
+                \Omega_{\vb*{qp}}
+                &:= \Tr_{\bar{w}}\qty[\qty(\ketbra{\vb*{p}}{\vb*{q}} \ot \bbid_w) V_\rmR\dg O V_{\rmR}] ,\nonumber\\
+                \Psi_{i;\vb*{pq}}
+                &:= \Tr_{\bar{w}}\qty[\qty(\ketbra{\vb*{q}}{\vb*{p}} \ot \bbid_w) V_\rmL \rho_i V_{\rmL}\dg].\nonumber
+            \end{align}
+        \end{theorem}
+    \end{screen}
+    
+    この結果を用いて、「Supplementary Note 5: Variance of the cost function partial derivative for a single layer of the Alternating Layered Ansatz (B. Variance of the local cost function partial derivative)」において、$\Delta \Psi_{i;\vb*{pq}}^{j;\vb*{p^{\prime} q^{\prime}}} = \Tr_{\bar{h}}[\rho_i] =: \rho_i^{(h)}$ となることを示せるので、拡張された定理を得る。
+\end{proof}
+
+
+
+\section{定理\ref{thm:concentration-1}の証明ための補題}\label{sec:prf-lemma-cos-sin-expectation}
+\begin{screen}
+\begin{lemma}\label{lem:cos-sin-expectation}
+    $X \sim \calN(\mu, \sigma^2)$ とするとき、
+    \begin{align}
+        \E[\cos(X)] = e^{-\sigma^2/2}\cos(\mu),\quad
+        \E[\sin(X)] = e^{-\sigma^2/2}\sin(\mu)
+    \end{align}
+\end{lemma}
+\end{screen}
+
+
+\begin{proof}
+    $X \sim \calN(\mu, \sigma^2)$ とするとき、$Z=\frac{X-\mu}{\sigma} \sim N(0,1)$ であるから、$X=\mu+\sigma Z$ と表せる。よって、
+    \begin{align}
+        \mathrm{E}[e^{a X}]
+        = \mathrm{E}\qty[e^{a(\mu+\sigma Z)}]
+        = \mathrm{E}[e^{a \mu} e^{a \sigma Z}]
+        = e^{a \mu}\mathrm{E}[e^{a \sigma Z}]
+    \end{align}
+
+    となる。$f(a)=\mathrm{E}[e^{a Z}]$ とおくと、$e^{a \mu}\mathrm{E}[e^{a \sigma Z}]= e^{a \mu} f(a \sigma)$ である。
+    ゆえに、$f(a)=\mathrm{E}[e^{a Z}]$ を求めれば、$\mathrm{E}[e^{a X}]$ が分かる。
+    $Z$ の確率密度関数は $\frac{1}{\sqrt{2 \pi}} e^{-z^2 / 2}$ であるから、
+    \begin{align}
+        f(a)
+        = \mathrm{E}[e^{a Z}]
+        &=\int_{-\infty}^{\infty} e^{a z} \frac{1}{\sqrt{2 \pi}} e^{-z^2 / 2} dz \\
+        &=\exp(a^2/2) \cdot \int_{-\infty}^{\infty}
+        \frac{1}{\sqrt{2 \pi}}\exp(-\qty(z^2+2 a z+a^2)/2) \dd{z} \\
+        &=\exp(a^2/2) \cdot 1
+    \end{align}
+    
+    よって、$f(a) = \mathrm{E}[e^{a Z}] = \exp(a^2/2)$ となる。
+    ゆえに、
+    \begin{align}
+        \mathrm{E}[e^{a X}]
+        = e^{a \mu} f(a \sigma)
+        = e^{a \mu}\exp(a^2\sigma^2/2)
+    \end{align}
+    である。
+    $a = i$ とおくと、
+    \begin{align}
+        \mathrm{E}[e^{iX}]
+        = e^{i\mu} \mathrm{E}[e^{i\sigma Z}]
+        = e^{-\sigma^2/2} e^{i\mu}
+        \iff
+        \begin{cases}
+        \mathrm{E}[\cos(X)] = e^{-\sigma^2/2}\cos(\mu)\\
+        \mathrm{E}[\sin(X)] = e^{-\sigma^2/2}\sin(\mu)\\
+        \end{cases}
+    \end{align}
+\end{proof}
+
+
+
+\section{定理\ref{thm:concentration-1}の証明}\label{sec:prf-concentration-1}
+\begin{screen}
+    \begin{theorem}
+        （論文~\cite{li2022concentration}の Theorem 1 の拡張された結果）
+        $\calX = \{\bs{x}\}$, $\calZ = \{\bs{z}\}$ はそれぞれラベル $y_i=0$ と $y_i=1$ に属する入力データセットであり、$|\calX|:|\calZ| = p:q\;(p+q=1)$ であるとする。
+        そして、各データサンプルを次のように表記する：$\bs{x} = (\bs{x}_{j})_{j=1}^s,\, \bs{x}_{j} = (x_{j,d})_{d=1}^L$, $\bs{z} = (\bs{z}_{j})_{j=1}^s,\, \bs{z}_{j} = (z_{j,d})_{d=1}^L$。異なるラベルに属する入力データを量子回路に同時には入力しないとする。
+        入力データの各成分の分布は $x_{j,d} \sim \calN(\mu_{x|j,d}, \sigma_{x|j,d}^2)$, $z_{j,d} \sim \calN(\mu_{z|j,d}, \sigma_{z|j,d}^2)$ であり、分散は $\sigma_{\min} \leq \sigma_{x|\fa j,d},\, \sigma_{z|\fa j,d}$ を満たすとする。また、入力回路は次の図~\ref{fig:circuit-concentration-1_}ののように構成されているとする。ただし、$1\leq j\leq s,\, 1\leq d\leq L$ である。
+        このとき、$\bar{\rho} = p\E_\calX[\rho(\bs{x})] - q\E_\calZ[\rho(\bs{z})]$ について次の不等式が成り立つ。
+        \begin{align}
+            \frac{1}{2^s}
+            \qty[w^2 + \sum_{j=1}^s \qty(p\,e^{-\Sigma_{x|j}/2} - q\,e^{-\Sigma_{z|j}/2})^2]
+            \leq \Tr[(\bar{\rho})^2]
+            \leq \frac{1}{2^s} (1 + e^{-L\,\sigma_{\min}^2})^s
+        \end{align}
+        ただし、$s$ は量子ビット数、$L$ は入力回路の層数、$w = p - q$, $\Sigma_{x|j}:=\sum_{d=1}^L \sigma_{x|j,d}^2$, $\Sigma_{z|j}:=\sum_{d=1}^L \sigma_{z|j,d}^2$ である。論文内では、$s = n,\,L = D$ である。
+    \end{theorem}
+\end{screen}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+    \node[scale=1]{
+        \begin{quantikz}
+            \lstick{$\ket{0}$} & \gate{R_y(x_{1,1})}    & \gate{R_y(x_{1,2})}    &\ \ldots\ & \gate{R_y(x_{1,L-1})}    & \gate{R_y(x_{1,L})}& \meter{} \\
+            \lstick{$\ket{0}$} & \gate{R_y(x_{2,1})}    & \gate{R_y(x_{2,2})}    &\ \ldots\ & \gate{R_y(x_{2,L-1})}    & \gate{R_y(x_{2,L})}& \meter{} \\
+            \wn\vdots&\wn&\wn&\wn\vdots&\wn&\wn&\wn\vdots\\
+            \lstick{$\ket{0}$} & \gate{R_y(x_{s,1})}    & \gate{R_y(x_{s,2})}    &\ \ldots\ & \gate{R_y(x_{s,L-1})}    & \gate{R_y(x_{s,L})}& \meter{}\\
+        \end{quantikz}};
+    \end{tikzpicture}
+    \caption{$s$ 量子ビットからなる量子回路。$L$ 層の $R_y$ ゲートからなる。}
+    \label{fig:circuit-concentration-1_}
+\end{figure}
+
+\begin{proof}
+    回路の構造上、データ入力後の状態はエンタングルメントを持たないので、$\rho(\bs{x}) = \rho(\bs{x}_1) \otimes \rho(\bs{x}_2) \otimes \cdots \otimes \rho(\bs{x}_s)$ と表せる。また、$R_y$ のみを用いているから、$\rho(\bs{x}_j) = R_y(x_{j,1} + x_{j,2} + \cdots + x_{j,L})\dyad{0}R_y\dg(x_{j,1} + x_{j,2} + \cdots + x_{j,L})$ である。
+    入力データの成分は独立であるから、
+    \begin{align}
+        \E_\calX[\rho(\bs{x})] = \E_\calX[\rho(\bs{x}_1)] \otimes \E_\calX[\rho(\bs{x}_2)] \otimes \cdots \otimes \E_\calX[\rho(\bs{x}_s)]
+    \end{align}
+    が成り立つ。$\calZ$ についても同様。
+    $\calX$ と $\calZ$ のデータセットのサイズの比率が $|\calX|:|\calZ| = p:q$ なので、
+    $\bar{\rho} = \bar{\rho}_+ - \bar{\rho}_-$ は次で与えられる。
+    \begin{align}
+        \bar{\rho}
+        &= p\E_\calX[\rho(\bs{x})] - q\E_\calZ[\rho(\bs{z})]\\
+        &= p\bigotimes_{j=1}^s \E_\calX[\rho(\bs{x}_j)] - q\bigotimes_{j=1}^s \E_\calZ[\rho(\bs{z}_j)]\\
+        &=: p\bigotimes_{j=1}^s \bar{\rho}_{x|j} - q\bigotimes_{j=1}^s \bar{\rho}_{z|j}
+    \end{align}
+    
+    よって、$\Tr[(\bar{\rho})^2]$ は次のように書き換えられる。
+    \begin{align}
+        \Tr[(\bar{\rho})^2]
+        &= \Tr\qty[\qty(p\bigotimes_{j=1}^s \bar{\rho}_{x|j} - q\bigotimes_{j=1}^s \bar{\rho}_{z|j})^2]\\
+        &= p^2\Tr\qty[\qty(\bigotimes_{j=1}^s \bar{\rho}_{x|j})^2] + q^2\Tr\qty[\qty(\bigotimes_{j=1}^s \bar{\rho}_{z|j})^2] - 2pq\Tr\qty[\qty(\bigotimes_{j=1}^s \bar{\rho}_{x|j}\bar{\rho}_{z|j})]\\
+        &= p^2\prod_{j=1}^s\Tr[(\bar{\rho}_{x|j})^2] + q^2\prod_{j=1}^s\Tr[(\bar{\rho}_{z|j})^2] - 2pq\prod_{j=1}^s\Tr[\bar{\rho}_{x|j}\bar{\rho}_{z|j}]
+    \end{align}
+    
+    $X_j = \sum_{d=1}^L x_{j,d}$ として $\bar{\rho}_{x|j}$ の行列は次で与えられる。
+    \begin{align}
+        \bar{\rho}_{x|j}
+        = \frac12\mqty[1 + \E[\cos(X_j)] & \E[\sin(X_j)] \\
+                        \E[\sin(X_j)] & 1 - \E[\cos(X_j)]]
+    \end{align}
+    
+    これより、
+    \begin{align}
+        \Tr[(\bar{\rho}_{x|j})^2]
+        &= \frac12\qty[1 + \E^2[\cos(X_j)] + \E^2[\sin(X_j)]]
+    \end{align}
+    ここで、補題~\ref{lem:cos-sin-expectation}と $X_j \sim \calN(\sum_{d=1}^L \mu_{x|j,d}, \sum_{d=1}^L \sigma_{x|j,d}^2)$ であることから、$\Sigma_{x|j}:=\sum_{d=1}^L \sigma_{x|j,d}^2$ とおくと、
+    \begin{align}
+        \Tr[(\bar{\rho}_{x|j})^2]
+        &= \frac12\qty[1 + e^{-\Sigma_{x|j}}\cos^2\qty(\sum\nolimits_{d=1}^L \mu_{x|j,d}) + e^{-\Sigma_{x|j}}\sin^2\qty(\sum\nolimits_{d=1}^L \mu_{x|j,d})]\nonumber\\
+        &= \frac12\qty(1 + e^{-\Sigma_{x|j}})
+    \end{align}
+    
+    同様に $Z_j = \sum_{d=1}^L z_{j,d}$, $\Sigma_{z|j}:=\sum_{d=1}^L \sigma_{z|j,d}^2$ とすると、$\Tr[(\bar{\rho}_{z|j})^2]$ は次のようになる。
+    \begin{align}
+        \Tr[(\bar{\rho}_{z|j})^2]
+        &= \frac12\qty(1 + e^{-\Sigma_{z|j}})
+    \end{align}
+
+    また、$\Tr[\bar{\rho}_{x|j}\bar{\rho}_{z|j}]$ は次のようになる。    
+    \begin{align}
+        \Tr[\bar{\rho}_{x|j}\bar{\rho}_{z|j}]
+        &= \frac12\qty[1 + \E[\cos(X_j)]\E[\cos(Z_j)] + \E[\sin(X_j)]\E[\sin(Z_j)]]\nonumber\\
+        &= \frac12\qty[1 + e^{-(\Sigma_{x|j}+\Sigma_{z|j})/2}\cos\qty(\sum\nolimits_j \mu_{x|j,d} - \sum\nolimits_j \mu_{z|j,d})]
+    \end{align}
+    
+    これより、$\Tr[(\bar{\rho}_{x|j}\bar{\rho}_{z|j})]$ は次の不等式を満たす。
+    \begin{align}
+        \frac12\qty(1 - e^{-(\Sigma_{x|j}+\Sigma_{z|j})/2})
+        \leq \Tr[(\bar{\rho}_{x|j}\bar{\rho}_{z|j})]
+        \leq \frac12\qty(1 + e^{-(\Sigma_{x|j}+\Sigma_{z|j})/2})
+    \end{align}
+    
+    したがって、$\Tr[(\bar{\rho})^2]$ は、次の不等式を満たす。
+    \begin{align}\label{eq:ineq-1}
+        \frac{1}{2^s}
+        \qty[
+            p^2\prod_{j=1}^s(1 + e^{-\Sigma_{x|j}})
+            + q^2\prod_{j=1}^s(1 + e^{-\Sigma_{z|j}})
+            - 2pq\prod_{j=1}^s(1 + e^{-(\Sigma_{x|j}+\Sigma_{z|j})/2})
+        ]
+        \leq \Tr[(\bar{\rho})^2]\nonumber\\
+        \leq
+        \frac{1}{2^s}
+        \qty[
+            p^2\prod_{j=1}^s\qty(1 + e^{-\Sigma_{x|j}})
+            + q^2\prod_{j=1}^s\qty(1 + e^{-\Sigma_{z|j}})
+            - 2pq\prod_{j=1}^s\qty(1 - e^{-(\Sigma_{x|j}+\Sigma_{z|j})/2})
+        ]
+    \end{align}
+    
+    不等式~\eqref{eq:ineq-1}の左辺の展開した各項について次が成り立つ。$(1 \leq j_p \leq s)$
+    \begin{align}
+        &p^2 \cdot 1^{s-t} \prod_{p=1}^{t}e^{-\Sigma_{x|j_p}}
+        + q^2 \cdot 1^{s-t} \prod_{p=1}^{t}e^{-\Sigma_{z|j_p}}
+        - 2pq \cdot 1^{s-t} \prod_{p=1}^{t}e^{-(\Sigma_{x|j_p}+\Sigma_{z|j_p})/2}\\
+        &=
+        \qty(p\prod_{p=1}^{t}e^{-\Sigma_{x|j_p}/2} - q\prod_{p=1}^{t}e^{-\Sigma_{z|j_p}/2})^2
+        \geq 0
+    \end{align}
+    
+    この不等式より、不等式~\eqref{eq:ineq-1}の左辺は次の式で下から抑えられる。
+    \begin{align}
+        &\frac{1}{2^s}
+        \qty[
+            p^2\prod_{j=1}^s(1 + e^{-\Sigma_{x|j}})
+            + q^2\prod_{j=1}^s(1 + e^{-\Sigma_{z|j}})
+            - 2pq\prod_{j=1}^s(1 + e^{-(\Sigma_{x|j}+\Sigma_{z|j})/2})
+        ]\\
+        \geq
+        &\frac{1}{2^s}
+        \Big[
+            p^2(1 + e^{-\Sigma_{x|1}} + e^{-\Sigma_{x|2}} + \cdots + e^{-\Sigma_{x|s}})
+            + q^2(1 + e^{-\Sigma_{z|1}} + e^{-\Sigma_{z|2}} + \cdots + e^{-\Sigma_{z|s}})\nonumber\\
+            &\qquad\qquad- 2pq(1 + e^{-(\Sigma_{x|1}+\Sigma_{z|1})/2} + e^{-(\Sigma_{x|2}+\Sigma_{z|2})/2} + \cdots + e^{-(\Sigma_{x|s}+\Sigma_{z|s})/2})
+        \Big]\\
+        &=
+        \frac{1}{2^s}
+        \qty[(p-q)^2 + \sum_{j=1}^s \qty(p\,e^{-\Sigma_{x|j}/2} - q\,e^{-\Sigma_{z|j}/2})^2]
+    \end{align}
+    
+    また、$L\,\sigma_{\min} \leq \Sigma_{x|j},\, \Sigma_{z|j}$ により、不等式~\eqref{eq:ineq-1}の右辺は次の式で上から抑えられる。
+    \begin{align}
+        &\frac{1}{2^s}
+        \qty[
+            p^2\prod_{j=1}^s(1 + e^{-\Sigma_{x|j}})
+            + q^2\prod_{j=1}^s(1 + e^{-\Sigma_{z|j}})
+            - 2pq\prod_{j=1}^s(1 - e^{-(\Sigma_{x|j}+\Sigma_{z|j})/2})
+        ]\\
+        &\leq
+        \frac{1}{2^s} (1 + e^{-L\,\sigma_{\min}^2})^s
+    \end{align}
+    
+    以上より、$w = p-q$ として $\Tr[(\bar{\rho})^2]$ は上下から次の式で抑えられる。
+    \begin{align}
+        \frac{1}{2^s}
+        \qty[w^2 + \sum_{j=1}^s \qty(p\,e^{-\Sigma_{x|j}/2} - q\,e^{-\Sigma_{z|j}/2})^2]
+        \leq \Tr[(\bar{\rho})^2]
+        \leq \frac{1}{2^s} (1 + e^{-L\,\sigma_{\min}^2})^s
+    \end{align}
+\end{proof}
+
+
+
+\begin{comment}
+\begin{proof}
+    回路の構造上、データ入力後の状態はエンタングルメントを持たないので、$\rho(\bs{x}) = \rho(\bs{x}_1) \otimes \rho(\bs{x}_2) \otimes \cdots \otimes \rho(\bs{x}_s)$ と表せる。また、$R_y$ のみを用いているから、$\rho(\bs{x}_j) = R_y(x_{j,1} + x_{j,2} + \cdots + x_{j,L})\dyad{0}R_y\dg(x_{j,1} + x_{j,2} + \cdots + x_{j,L})$ である。
+    入力データの成分は独立であるから、
+    \begin{align}
+        \E_\calX[\rho(\bs{x})] = \E_\calX[\rho(\bs{x}_1)] \otimes \E_\calX[\rho(\bs{x}_2)] \otimes \cdots \otimes \E_\calX[\rho(\bs{x}_s)]
+    \end{align}
+    が成り立つ。$\calZ$ についても同様。
+    $\calX$ と $\calZ$ のデータセットのサイズの比率が $|\calX|:|\calZ| = p:q$ なので、
+    $\bar{\rho} = \bar{\rho}_+ - \bar{\rho}_-$ は次で与えられる。
+    \begin{align}
+        \bar{\rho}
+        &= p\E_\calX[\rho(\bs{x})] - q\E_\calZ[\rho(\bs{z})]\\
+        &= \bigotimes_{j=1}^s \qty(p\E_\calX[\rho(\bs{x}_j)] - q\E_\calZ[\rho(\bs{z}_j)])\\
+        &=: \bigotimes_{j=1}^s \bar{\rho}_j
+    \end{align}
+    
+    $X_j = \sum_{d=1}^L x_{j,d},\, Z_j = \sum_{d=1}^L z_{j,d}$ として $\E_\calX[\rho(\bs{x}_j)]$ の行列は次のようになる。
+    \begin{align}
+        \E_\calX[\rho(\bs{x}_j)]
+        = \frac12\mqty[1 + \E[\cos(X_j)] & \E[\sin(X_j)] \\
+                        \E[\sin(X_j)] & 1 - \E[\cos(X_j)]]
+    \end{align}
+
+    ゆえに、$\bar{\rho}_j$ は次のようになる。
+    \begin{align}
+        \bar{\rho}_j
+        &= p\E[\rho(\bs{x}_j)] - q\E[\rho(\bs{z}_j)]\\
+        &=
+        \frac12\mqty[(p-q) + p\E[\cos(X_j)] - q\E[\cos(Z_j)] & p\E[\sin(X_j)] - q\E[\sin(Z_j)] \\
+        p\E[\sin(X_j)] - q\E[\sin(Z_j)] & (p-q) - p\E[\cos(X_j)] + q\E[\cos(Z_j)]]
+    \end{align}
+    
+    これより
+    \begin{align}
+        \Tr[(\bar{\rho}_j)^2]
+        &= \frac12\Big[w^2 + \qty(p\E[\cos(X_j)] - q\E[\cos(Z_j)])^2 + \qty(p\E[\sin(X_j)] - q\E[\sin(Z_j)])^2\Big]\\
+        &= \frac12\Big[w^2 + p^2\qty(\E^2[\cos(X_j)] + \E^2[\sin(X_j)]) + q^2\qty(\E[\cos(Z_j)]^2 + \E[\sin(Z_j)]^2)\nonumber\\
+        &\qquad- 2pq\qty(\E[\cos(X_j)]\E[\cos(Z_j)] + \E[\sin(X_j)]\E[\sin(Z_j)])\Big]
+    \end{align}
+    
+    ここで、補題~\ref{lem:cos-sin-expectation}と $X_j \sim \calN(\sum_{d=1}^L \mu_{x|j,d}, \sum_{d=1}^L \sigma_{x|j,d}^2)$ であることから、$w = p - q$, $\Sigma_{x|j}:=\sum_{d=1}^L \sigma_{x|j,d}^2$, $\Sigma_{z|j}:=\sum_{d=1}^L \sigma_{z|j,d}^2$ とおくと、
+    \begin{align}
+        \Tr[(\bar{\rho}_j)^2]
+        = \frac12\Big[w^2 &+ p^2e^{-\Sigma_{x|j}} + q^2e^{-\Sigma_{z|j}}\nonumber\\
+        &- 2pq\,e^{-(\Sigma_{x|j}+\Sigma_{z|j})/2}\cos(\sum\nolimits_j \mu_{x|j,d} - \sum\nolimits_j \mu_{z|j,d})\Big]
+    \end{align}
+    
+    この表式と、$\sigma_{\min} \leq \sigma_{x|\fa j,d},\, \sigma_{z|\fa j,d}$ により、$\Tr[(\bar{\rho}_j)^2]$ を次のように上から抑えることができる。
+    \begin{align}
+        \Tr[(\bar{\rho}_j)^2]
+        &\leq \frac12\Big[w^2 + p^2e^{-\Sigma_{x|j}} + q^2e^{-\Sigma_{z|j}} + 2pq\,e^{-(\Sigma_{x|j}+\Sigma_{z|j})/2}\Big]\\
+        &= \frac12\Big[w^2 + (p\,e^{-\Sigma_{x|j}/2} + q\,e^{-\Sigma_{z|j}/2})^2\Big]\\
+        &\leq \frac12\Big[w^2 + (p\,e^{-L\,\sigma_{\min}^2/2} + q\,e^{-L\,\sigma_{\min}^2/2})^2\Big]\\
+        &= \frac12\Big[w^2 + e^{-L\,\sigma_{\min}^2}\Big]
+    \end{align}
+    
+    また、$\Tr[(\bar{\rho}_j)^2]$ を下から抑えることもできる。
+    \begin{align}
+        \Tr[(\bar{\rho}_j)^2]
+        &\geq \frac12\Big[w^2 + p^2e^{-\Sigma_{x|j}} + q^2e^{-\Sigma_{z|j}} - 2pq\,e^{-(\Sigma_{x|j}+\Sigma_{z|j})/2}\Big]\\
+        &= \frac12\Big[w^2 + (p\,e^{-\Sigma_{x|j}/2} - q\,e^{-\Sigma_{z|j}/2})^2\Big]
+    \end{align}
+    
+    これと、$|\calX|:|\calZ| = p:q$ であることから
+    $\Tr[(\bar{\rho}_j)^2]$ について次の不等式が成り立つ。
+    \begin{align}
+        \frac12\qty[w^2 + \qty(p\,e^{-\Sigma_{x|j}/2} - q\,e^{-\Sigma_{z|j}/2})^2]
+        \leq \Tr[(\bar{\rho}_j)^2]
+        \leq \frac12\qty[w^2 + e^{-L\,\sigma_{\min}^2}]
+    \end{align}
+    したがって、$\bar{\rho} = \bigotimes_{j=1}^s \bar{\rho}_j$ は次の不等式を満たす。
+    \begin{align}
+        \frac{1}{2^s}
+        \prod_{j=1}^s
+        \qty[w^2
+            + \qty(p\,e^{-\Sigma_{x|j}/2}- q\,e^{-\Sigma_{z|j}/2})^2
+        ]
+        \leq \Tr[(\bar{\rho})^2]
+        \leq \frac{1}{2^s} \qty[w^2 + e^{-L\,\sigma_{\min}^2}]^s
+    \end{align}
+\end{proof}
+\end{comment}
+
+
+
+\section{定理\ref{thm:concentration-2}の略証}\label{sec:prf-concentration-2}
+\begin{screen}
+    \begin{theorem}
+        （論文~\cite{li2022concentration}の Theorem 2 の拡張された結果）
+        $\calX = \{\bs{x}\}$ はラベル $y_i=0$ に属する入力データセットであるとする。
+        そして、各データサンプルを次のように表記する：$\bs{x} = (\bs{x}_{j})_{j=1}^s,\, \bs{x}_{j} = (\bs{x}_{j,d})_{d=1}^L,\,\bs{x}_{j,d} = (x_{j,d,1},x_{j,d,2},x_{j,d,3})$。
+        入力データの各成分の分布は $x_{j,d,k} \sim \calN(\mu_{x|j,d,k}, \sigma_{x|j,d,k}^2)$ であり、分散は $\sigma_{\min} \leq \sigma_{x|\fa j,d} \leq \sigma_{\max}$ を満たすとする。また、入力回路は次の図~\ref{fig:circuit-concentration-2_}のように構成されているとする。ただし、$1\leq j\leq s,\, 1\leq d\leq L,\,1\leq k\leq 3$ である。
+        このとき、$\bar{\rho} := \E_\calX[\rho(\bs{x})]$ について次の不等式が成り立つ。
+        \begin{align}
+            \frac{1}{2^s} + e^{-3s\,L\,\sigma_{\max}^2}
+            \leq \Tr[(\bar{\rho})^2]
+            \leq \frac{1}{2^s} + e^{-L\,\sigma_{\min}^2}
+        \end{align}
+        ただし、$s$ は量子ビット数、$L$ は入力回路の層数である。論文内では、$s = n,\,L = D$ である。
+    \end{theorem}
+\end{screen}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+    \node[scale=0.9]{
+        \begin{quantikz}
+            \lstick{$\ket{0}$} & \gate{U_3(\bs{x}_{1,1})}    &\gate[4]{Etg_{1}}& \gate{U_3(\bs{x}_{1,2})}&\gate[4]{Etg_{2}}&\ \ldots\ & \gate{U_3(\bs{x}_{1,L-1})}&\gate[4]{Etg_{L-1}}& \gate{U_3(\bs{x}_{1,L})} & \qw \\
+            \lstick{$\ket{0}$} & \gate{U_3(\bs{x}_{2,1})}    & \qw           & \gate{U_3(\bs{x}_{2,2})}    & \qw           &\ \ldots\ & \gate{U_3(\bs{x}_{2,L-1})}    & \qw               & \gate{U_3(\bs{x}_{2,L})}   & \qw \\
+            \wave&&&&&&&&&\\
+            \lstick{$\ket{0}$} & \gate{U_3(\bs{x}_{s,1})}    & \qw           & \gate{U_3(\bs{x}_{s,2})}    & \qw           &\ \ldots\ & \gate{U_3(\bs{x}_{s,L-1})}    & \qw               & \gate{U_3(\bs{x}_{s,L})}   & \qw
+        \end{quantikz}};
+    \end{tikzpicture}
+    \caption{$s$ 量子ビットからなる量子回路。入力回路は、データを入力する $U_3(\bs{x}_{j,d})$ ゲートの $L$ 層と、 CNOT ゲートや CZ ゲートによってエンタングルメントを生成する層 $Etg_{d\prm}$ の $L-1$ 層からなる。ただし、$1\leq j\leq s,\, 1\leq d\leq L,\, 1\leq d\prm\leq L-1$ である。}
+    \label{fig:circuit-concentration-2_}
+\end{figure}
+
+
+\begin{proof}\label{prf:concentration-2}
+    論文~\cite{li2022concentration}内の式(S53)における $s_m^2$ の固有値が $e^{-\sigma_{\min}^2}$ を超えないことと同様に、$e^{-2\,\sigma_{\max}^2} \leq A_2^2A_3^2$ かつ $e^{-\,\sigma_{\max}^2/2} \leq A_1$ であることから $e^{-3\sigma_{\max}^2}$ を下回らないことがわかる。よって、$\bigotimes_{j=1}^s T_{j,d}$ の固有値は $e^{-3s\,\sigma_{\max}^2}$ を下回らない。
+    \begin{align}
+        \Tr[(\bar{\rho})^2] = \frac{1}{2^s} + 2^s\stackrel{\circ}{\pi}_0 \calT_1 \calE_1 \cdots \calT_{L-1} \calE_{L-1} \calT_L \calT_L^{\top} \calE_{L-1}^{\top} \calT_{L-1}^{\top} \cdots \calE_1^{\top} \calT_1^{\top} \stackrel{\circ}{\pi}_0^{\top}
+    \end{align}
+    であり、第二項は次のように上から抑えられる。
+    \begin{align}
+        \stackrel{\circ}{\pi}_0 \calT_1 \calE_1 \cdots \calT_{L-1} \calE_{L-1} \calT_L \calT_L^{\top} \calE_{L-1}^{\top} \calT_{L-1}^{\top} \cdots \calE_1^{\top} \calT_1^{\top} \stackrel{\circ}{\pi}_0^{\top}
+        \leq \abs{\stackrel{\circ}{\pi}_0}_2^2 e^{-L \sigma_{\min}^2}
+        = \frac{2^s-1}{2^{2s}} e^{-L \sigma_{\min}^2}
+        \leq \frac{e^{-L \sigma_{\min}^2}}{2^s}
+    \end{align}
+    同様に、第二項は次のように下から抑えられる。
+    \begin{align}
+        \frac{e^{-3sL \sigma_{\max}^2}}{2^s} \leq \frac{2^s-1}{2^{2s}} e^{-3sL\,\sigma_{\max}^2} \leq \abs{\stackrel{\circ}{\pi}_0}_2^2 e^{-3sL \sigma_{\max}^2} \leq \stackrel{\circ}{\pi}_0 \calT_1 \calE_1 \cdots \calT_{L-1} \calE_{L-1} \calT_L \calT_L^{\top} \calE_{L-1}^{\top} \calT_{L-1}^{\top} \cdots \calE_1^{\top} \calT_1^{\top} \stackrel{\circ}{\pi}_0^{\top}
+    \end{align}
+    ゆえに、拡張された定理を得る。
+\end{proof}

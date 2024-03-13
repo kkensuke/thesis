@@ -1,0 +1,202 @@
+\chapter{第\ref{chap:vqa}章の補足}
+\section{機械学習の概要}\label{sec:machine-learning}
+機械学習とは、コンピューターに問題を解くためのルールを明示することなく、学習を通して最適なモデルを作る方法である。
+機械学習の分野は、教師あり学習、教師なし学習、強化学習の3つの大きなカテゴリに分けられる。
+
+\begin{itemize}
+    \item \textbf{教師あり学習}とは、与えられた入力値と出力値のペアの集合（訓練データセット）に基づいて、入力値を出力値にマッピングする関数を学習するタスクである。これにより、関数が未知のデータサンプルの出力値を正しく決定できるようにする。
+    \item \textbf{教師なし学習}とは、出力値を持たない入力値のみのデータセットからの推論を行うために使用される機械学習のタスクである。最も一般的な教師なし学習の方法はクラスター分析であり、これはデータ内の隠れたパターンやグループを見つけるための探索的データ分析に使用される。
+    \item \textbf{強化学習}とは、ソフトウェア上のエージェントが環境との相互作用を通じて学習する機械学習のタスクである。強化学習は、教師あり学習とは異なり、正しい出力が何であるかを明示的に教えられない。代わりに、エージェントは、試行錯誤のプロセスを通じて報酬または罰則を受け取り、その結果、最適な行動を決定するための行動戦略を学習する。
+\end{itemize}
+
+
+\subsection{教師あり学習のモデル}
+教師あり学習の問題を記述するために、入力の集合 $X$ と出力の集合 $Y$ を定義する。また、仮説の集合 $H$ を定義する。$H$ は $X$ から $Y$ へのすべての関数の集合の部分集合である。$H$ を仮説空間と呼ぶ。また、$S = \{(x,y)|x\in X, y\in Y\}$ とし、訓練サンプルの集合 $D$ は $S$ の部分集合であるとする。同様に、テストサンプルの集合 $T$ も $S$ の部分集合であるとする。ただし、$D$ と $T$ は共通の要素を持たないとする。
+教師あり学習の目的は、$D$ に基づいて $H$ の中の最適な仮説 $h$ を見つけることである。最適な仮説 $h$ は、$T$ に基づいてテストされる。$h$ が $T$ でうまく機能する場合、$h$ は未知の入力 $x$ に対してもうまく機能すると予想される。
+
+損失関数 $L$ は、仮説 $h$ と訓練サンプル $(x, y)$ を入力として受け取り、$h$ が $x$ に対して $y$ を正しく予測しなかった場合のペナルティを計算する関数である。
+損失関数の単純な例は、次のように定義される二乗誤差である。
+\begin{align}
+    L(h, (x, y)) = (h(x) - y)^2.
+\end{align}
+
+教師あり学習は、訓練データセット $D$ と損失関数 $L$ によって定義される経験損失 $\E[L(h, (x, y))]$ を最小化する仮説 $h$ を見つける。
+\begin{align}
+    \E[L(h, (x, y))] = \sum_{(x, y) \in D} L(h, (x, y)).
+\end{align}
+
+\subsection{教師なし学習のモデル}
+教師なし学習では、空間 $X$ のベクトルとして表されるデータサンプルの集合 $D$ が与えられる。教師なし学習の目的は、データの構造を発見することである。構造は通常、クラスターの集合によって記述される。各クラスターは $D$ の部分集合であり、すべてのクラスターの和集合は $D$ である。教師なし学習の目的は、$D$ の良い分割であるクラスターの集合 $C$ を見つけることである。良い分割とは、同じクラスター内の任意の2点間の距離が小さいことと、異なるクラスター内の任意の2点間の距離が大きいことを意味する。
+コスト関数 $J$ は、クラスターの集合 $C$ を入力として受け取り、クラスターの集合 $C$ が $D$ の良い分割である場合に小さい値を返す関数である。
+\begin{align}
+    J(C) = \sum_{C_i \in C} \sum_{x, y \in C_i} \norm{x - y}^2.
+\end{align}
+
+\subsection{強化学習のモデル}
+強化学習では、アクションの集合 $A$、状態の集合 $S$、および報酬関数 $R$ が与えられる。報酬関数は、エージェントが特定の状態 $s \in S$ にいて特定のアクション $a \in A$ を取った場合の報酬を計算する。
+強化学習の目的は、状態を入力として受け取り、アクションを返す関数である方策 $\pi$ のなかで、期待される総報酬を最大化する方策を見つけることである。
+具体的には、状態価値関数や行動価値関数を用いて、方策を最適化する。
+
+状態価値関数 $V^{\pi}(s)$ は、最初に状態 $s$ にあり、その後方策 $\pi$ に従って行動を選択することを繰り返した場合の期待される総報酬である。
+\begin{align}
+    V^{\pi}(s) = \E_{\pi}\qty[\sum_{t=0}^{\infty} \gamma^t R(s_t, a_t) | s_0 = s].
+\end{align}
+ここで、$\gamma \in [0, 1]$ は割引率である。
+
+行動価値関数 $Q^{\pi}(s, a)$ は、最初に状態 $s$ にあり、行動 $a$ を選択し、その後方策 $\pi$ に従って行動を選択することを繰り返した場合の期待される総報酬である。
+\begin{align}
+    Q^{\pi}(s, a) = \E_{\pi}\qty[\sum_{t=0}^{\infty} \gamma^t R(s_t, a_t) | s_0 = s, a_0 = a].
+\end{align}
+これらの価値関数に対して、価値反復法や Q 学習などのアルゴリズムを用いて、最適な方策を見つける。
+
+
+
+% \section{ニューラルネットワーク}
+% ニューラルネットワークとは、神経細胞（ニューロン）のネットワークを意味するが、最近では、機械学習における人工的なノードからなるネットワークを意味することも多い。
+% 後者のニューラルネットワークは、入力層、中間層、出力層から構成される。中間層は、隠れ層とも呼ばれる。ニューラルネットワークは、入力層から出力層への情報の流れを表す有向グラフで表現される。各層は、ノードの集合で表現される。各ノードは、前の層のノードからの入力を受け取り、出力を次の層のノードに送信する。各ノードは、入力に対して重み付けされた値を計算し、活性化関数を適用する。活性化関数は、ノードの出力を計算するために使用される非線形関数である。ニューラルネットワークの学習は、訓練データセットを使用して、ニューラルネットワークの重みを調整することである。ニューラルネットワークの重みは、訓練データセットに基づいて、ニューラルネットワークの出力が訓練データセットの出力に近づくように調整される。ニューラルネットワークの学習は、誤差逆伝播法と呼ばれるアルゴリズムによって実行される。誤差逆伝播法は、ニューラルネットワークの出力の誤差を計算し、誤差を最小化するようにニューラルネットワークの重みを調整する。
+
+
+% 神経細胞（ニューロン）のネットワークを意味するが、最近では、コンピューター上での人工的なノードからなるネットワークを意味することが多い。よって、ニューラルネットワークは、生物学的ニューロンからなる生物学的ニューラルネットワークであるか、人工知能（AI）の問題を解決するための人工ニューラルネットワークである。生物学的ニューロンの接続強さは重みと呼ばれる数値としてモデル化される。正の重みは興奮性の接続を反映し、負の値は抑制性の接続を意味する。各ニューロンの出力は、他のニューロンに入力として渡される。これらのニューロンにはしきい値があるため、入力がそのしきい値を超えた場合にのみ考慮される。入力は、前の層の他のニューロンまたはノードの出力の加重和である。加重和は、非線形関数（活性化関数と呼ばれる）を介して変換される。そのニューロンの出力は、他のニューロンに入力として渡される。このプロセスは、ネットワーク内の各ニューロンに対して繰り返される。ネットワークの出力層は出力ベクトルを生成する。このベクトルの各要素は、入力が特定のクラスに属する確率に対応する。確率が最も高い出力は、入力のクラスラベルである。
+
+
+
+% \section{カーネル法}
+% \begin{screen}
+%     \begin{theorem}
+%         Representer theorem
+        
+%         Let $K$ be a positive definite kernel on $\calX$, and let $L$ be a strictly increasing function from $\bbR$ to $\bbR$. Let $H_k$ be the reproducing kernel Hilbert space associated with $K$. Then, for any training set $T = \{(x_1, y_1), \ldots, (x_n, y_n)\}$, the minimizer $f^\ast(\cdot)$ of the regularized empirical risk minimization problem
+%         \begin{equation}
+%             \min_{f \in H_k} \qty{ \frac{1}{n} \sum_{i=1}^n L(f(x_i), y_i) + \lambda \norm{f}_{H_k}^2}
+%         \end{equation}
+%         can be written as
+%         \begin{equation}
+%             f^\ast(\cdot) = \sum_{i=1}^n \alpha_i K(\cdot, x_i)
+%         \end{equation}
+%         for some $\bs{\alpha} = (\alpha_1, \ldots, \alpha_n) \in \bbR^n$.
+%     \end{theorem}
+% \end{screen}
+
+
+
+\newpage
+\section{ユニタリ $2$--デザインにおけるバレンプラトーの定理と証明}\label{sec:bp-proof}
+先行研究\cite{mcclean2018barren}はバレンプラトーという現象を最初に示した。ここでは、その論文の結果と証明を紹介する。
+ユニタリ $2$--デザインの定義については、\ref{sec:unitary-t-design}~節を参照されたい。
+\begin{screen}
+    \begin{theorem}\label{thm:bp}
+        量子回路 $V(\bs{\th})$ は $n$ 個の量子ビットからなり、2つの部分 $V(\bs{\th}) = V_+V_-$, $V_+ := \prod_{l=k+1}^L U_l(\th_l)W_l$, $V_- := \prod_{l=1}^{k} U_l(\th_l)W_l$ に分解できるとする。$V_+,\, V_-$ の少なくとも一方がユニタリ $2$--デザインであるとき、コスト関数 $C(\bs{\th}) = \Tr[V(\bs{\th})\rho V\dg(\bs{\th})O]$ はバレンプラトーとなる~\cite{mcclean2018barren}。
+        \begin{align}
+            \Var_{V(\bs{\th})}\qty[\pdv{C(\bs{\th})}{\th_k}]
+            =
+            \begin{cases}
+                -\frac{1}{4}\frac{\ev{\Tr[P_-^2]}_{V_-}}{d^2-1}\qty(\Tr[O^2] - \frac{\Tr[O]^2}{d}) & \text{if $V_+$ is $2$--design}\\
+                -\frac{1}{4}\frac{\ev{\Tr[P_+^2]}_{V_+}}{d^2-1}\qty(\Tr[\rho^2] - \frac1d) & \text{if $V_-$ is $2$--design}\\
+                \frac{d^2}{2(d^2-1)^2}\qty(\Tr[O^2] - \frac{\Tr[O]^2}{d})\qty(\Tr[\rho^2] - \frac1d) & \text{if $V_+,V_-$ are $2$--design}
+            \end{cases}
+        \end{align}
+        ここで、$U_k(\th_k) = \exp(-\frac{i}{2}\th_k P_k),\,(P_k^2 = I,\, \Tr[P_k] = 0)$, $P_+ := [P_k, V_+\dg OV_+]$, $P_- := [P_k, V_-\rho V_-\dg]$ とした。
+    \end{theorem}
+\end{screen}
+
+量子回路がユニタリ $t$--デザインならば、ユニタリ $(t-1)$--デザインでもあるので、ユニタリ $t \geq 2$ --デザインならば、バレンプラトーが起きる。
+
+% \begin{align}
+%     \Delta(A) &:= D_{\HS}\qty(A, \Tr[A]\frac{\bbid}{d})\\
+%     \Var_{V(\bs{\th})}\qty[\pd_k C(\bs{\th})]
+%     &=
+%     \frac{2d^2}{(d^2-1)}\Delta(H)\Delta(\rho)\Delta(P_k)
+% \end{align}
+
+\begin{proof}\label{proof:bp}
+    $U_k(\th_k) = \exp(-\frac{i}{2}\th_k P_k)$ と表され、$P_k \in \{X,Y,Z\}$ とする。このとき、$\pd_k V(\bs{\th}) = -\frac{i}{2}V_+P_kV_-$ であるから、
+    \begin{align}
+        \pd_k C(\bs{\th}) := \frac{\pd C(\bs{\th})}{\pd \theta_k}
+        &= \frac{i}{2}\qty(\Tr[V_+V_-\rho V_-\dg P_kV_+\dg O] - \Tr[V_+P_kV_-\rho V_-\dg V_+\dg O])\\
+        &= -\frac{i}{2}\Tr[ V_+\dg OV_+\, [P_k, V_-\rho V_-\dg]]\\
+        &=\;\;\;\frac{i}{2}\Tr[V_-\rho V_-\dg\, [P_k, V_+\dg OV_+]]
+    \end{align}
+    最後の等式では $\Tr[A[B,C]] = -\Tr[C[B,A]]$ であることを用いた。
+    
+    まず、勾配の平均が $0$ になることを示す。$V_+$ がユニタリ $2$--デザインであるとすると、$V_+$ はユニタリ $1$--デザインでもあるから、
+    \begin{align}
+        \E_{V_+}\qty[\pd_k C(\bs{\th})]
+        &= -\frac{i}{2}\int_{\calU(d)} d\mu_{\Haar}(V_+) \Tr[ V_+\dg OV_+\, [P_k, V_-\rho V_-\dg]]\\
+        &= -\frac{i}{2}\Tr[\qty(\int_{\calU(d)} d\mu_{\Haar}(V_+) V_+\dg OV_+)\, [P_k, V_-\rho V_-\dg]]\\
+        &= -\frac{i}{2}\Tr[\frac{\Tr[\rho]\bbid}{d} \times [P_k, V_-\rho V_-\dg]]\quad \because \eqref{eq:haar-int-3}\\
+        &= 0 
+    \end{align}
+    
+    同様に、$V_-$ がユニタリ $2$--デザインであるとすると、$V_-$ はユニタリ $1$--デザインでもあるから、
+    \begin{align}
+        \E_{V_-}\qty[\pd_k C(\bs{\th})]
+        &= \frac{i}{2}\int_{\calU(d)} d\mu_{\Haar}(V_-) \Tr[V_-\rho V_-\dg\, [P_k, V_+\dg OV_+]]\\
+        &= \frac{i}{2}\Tr[\qty(\int_{\calU(d)} d\mu_{\Haar}(V_-) V_-\rho V_-\dg)\, [P_k, V_+\dg OV_+]]\\
+        &= \frac{i}{2}\Tr[\frac{\Tr[\rho]\bbid}{d} \times [P_k, V_+\dg OV_+]]\quad \because \eqref{eq:haar-int-3}\\
+        &= 0
+    \end{align}
+    故に、どちらの場合も $\E_{V(\bs{\th})}[\pd_k C(\bs{\th})] = 0$ である。
+    
+    次に、勾配の分散が量子ビット数に関して指数関数的に小さくなることを示す。
+    $V_-$ がユニタリ $2$--デザインであるとすると、$P_+ := [P_k, V_+\dg OV_+]$ として、
+    \begin{align}
+        \Var_{V_+}\qty[\pd_k C(\bs{\th})]
+        &= -\frac{1}{4}\int_{\calU(d)} d\mu_{\Haar}(V_-) \Tr[V_-\rho V_-\dg\, P_+]\Tr[V_-\rho V_-\dg\, P_+]
+    \end{align}
+    公式~\eqref{eq:haar-int-5}において、$A = C = \rho$, $B = D = P_+$ とすると、
+    \begin{align}
+        \Var_{V_-}\qty[\pd_k C(\bs{\th})]
+        &= -\frac{1}{4}\Bigg(
+        \frac{1}{d^2-1}
+        (\Tr[\rho]\Tr[P_+]\Tr[\rho]\Tr[P_+] + \Tr[\rho^2]\Tr[P_+^2]) \nonumber\\
+        &\quad\;- \frac{1}{d(d^2-1)}
+        (\Tr[\rho^2]\Tr[P_+]\Tr[P_+] + \Tr[\rho]\Tr[\rho]\Tr[P_+^2])\Bigg)\\
+        &= -\frac{1}{4}\frac{\Tr[P_+^2]}{d^2-1}\qty(\Tr[\rho^2] - \frac{1}{d}) \quad (\because \Tr[P_+] = 0,\, \Tr[\rho] = 1)
+    \end{align}
+    
+    $V_+$ がユニタリ $2$--デザインとすると、$P_- := [P_k, V_-\rho V_-\dg]$ として、
+    \begin{align}
+        \Var_{V_+}\qty[\pd_k C(\bs{\th})]
+        &= -\frac{1}{4}\int_{\calU(d)} d\mu_{\Haar}(V_+) \Tr[V_+\dg OV_+\, P_-]\Tr[V_+\dg OV_+\, P_-]
+    \end{align}
+    公式~\eqref{eq:haar-int-5}を用いて同様に計算すると、
+    \begin{align}
+        \Var_{V_+}\qty[\pd_k C(\bs{\th})]
+        &= -\frac{1}{4}\frac{\Tr[P_-^2]}{d^2-1}\qty(\Tr[O^2] - \frac{\Tr[O]^2}{d}) \quad (\because \Tr[P_-] = 0)
+    \end{align}
+    
+    最後に $V_+, V_-$ の両方がユニタリ $2$--デザインであるとする。$\Var_{V_-}\qty[\pd_k C(\bs{\th})]$ を計算したので、あとは、$\Tr[P_+^2]$ を $V_+$ で積分すればよい。
+    \begin{align}
+        \int_{\calU(d)} d\mu_{\Haar}(V_+) \Tr[P_+^2]
+        &= \int_{\calU(d)} d\mu_{\Haar}(V_+) \Tr[[P_k, V_+\dg OV_+]^2]\\
+        &= \int_{\calU(d)} d\mu_{\Haar}(V_+)
+        \Tr\Big[P_k V_+\dg OV_+ P_k V_+\dg OV_+ + V_+\dg OV_+ P_k V_+\dg OV_+ P_k\nonumber\\
+        &\qquad\qquad\qquad\qquad\quad - P_k V_+\dg OV_+ V_+\dg OV_+ P_k -  V_+\dg OV_+ P_k P_k V_+\dg OV_+\Big]\\
+        &= \int_{\calU(d)} d\mu_{\Haar}(V_+)\,
+        2\times\qty(\Tr[P_k V_+\dg OV_+ P_k V_+\dg OV_+]- \Tr[O^2])\\
+        &= \int_{\calU(d)} d\mu_{\Haar}(V_+)\,
+        2\times\qty(\Tr[OV_+ P_k V_+\dg OV_+P_kV_+\dg]- \Tr[O^2])
+    \end{align}
+    最後から2番目の等式では、$P_k^2 = \bbid,\,V_+V_+\dg = \bbid$ を用いた。
+    公式~\eqref{eq:haar-int-4}において、$A = C = O$, $B = D = P_k$, $E = \bbid$ とし、全体のトレースを取ると、
+    \begin{align}
+        \int_{\calU(d)} d\mu_{\Haar}(V_+) \Tr[P_k V_+\dg OV_+ P_k V_+\dg OV_+]
+        &= \frac{1}{d^2-1}(\Tr[P_k]\Tr[P_k]\Tr[O^2] + \Tr[P_k^2]\Tr[O]\Tr[O]) \nonumber\\
+        &- \frac{1}{d(d^2-1)}(\Tr[P_k^2]\Tr[O^2] + \Tr[P_k]\Tr[O]\Tr[P_k]\Tr[O])\\
+        &= \frac{1}{d^2-1}\qty(d\Tr[O]^2 - \Tr[O^2])
+    \end{align}
+    最後の等式では、$\Tr[P_k] = 0,\,\Tr[P_k^2] = \Tr[\bbid] = d$ を用いた。
+    よって、
+    \begin{align}
+        \int_{\calU(d)} d\mu_{\Haar}(V_+) \Tr[P_+^2]
+        &= 2\times \qty(\frac{1}{d^2-1}\qty(d\Tr[O]^2 - \Tr[O^2]) - \Tr[O^2])\\
+        &= - \frac{2d^2}{d^2-1}\qty(\Tr[O^2] - \frac{\Tr[O]^2}{d})
+    \end{align}
+    
+    したがって、
+    \begin{align}
+        \Var_{V(\bs{\th})}\qty[\pd_k C(\bs{\th})]
+        &= \frac{d^2}{2(d^2-1)^2}\qty(\Tr[O^2] - \frac{\Tr[O]^2}{d})\qty(\Tr[\rho^2] - \frac{1}{d})
+    \end{align}
+\end{proof}
+% \end{comment}

@@ -1,0 +1,286 @@
+% set margins
+\usepackage[top=25truemm,bottom=20truemm,left=20truemm,right=20truemm]{geometry}
+\usepackage[dvipdfmx]{graphicx,hyperref,color}
+% math
+\usepackage{amsmath,amsthm,amssymb,mathtools,mathrsfs}
+% physics
+\usepackage{physics}
+% itembox
+\usepackage{ascmac}
+% AtBeginEnvironment
+\usepackage{etoolbox}
+% algorithm
+\usepackage{algorithm,algorithmic}
+% vector graphics
+\usepackage{tikz}
+\usepackage{quantikz}
+\usetikzlibrary{arrows.meta}
+% comment
+\usepackage{comment}
+% image position
+\usepackage{here}
+% Align table columns on decimal point
+\usepackage{dcolumn}
+% author
+\usepackage{authblk}
+% url
+\usepackage{url}
+% cite
+\usepackage[
+    backend=biber, 
+    style=phys,
+    sortcites=true,
+    biblabel=brackets,
+    giveninits=true,
+    abbreviate=false,
+    block=space,
+    backref=true, backrefstyle=two,
+]{biblatex}
+% For arXiv paper, use @article instead of @misc 
+% and add "journaltitle = {{arXiv}:0000.00000 [category]},"
+% and remove "doi = {...}"
+\addbibresource{ref.bib}
+% color
+\usepackage{xcolor}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    %urlcolor=cyan,
+}
+% show line number
+\usepackage{lineno}
+% \linenumbers
+% make header
+\usepackage{fancyhdr}
+\lhead{\leftmark}
+\rhead{}
+\cfoot{\thepage} % remove page number at the bottom
+\renewcommand{\chaptermark}[1]{\markboth{第\ \normalfont\thechapter\ 章~#1}{}} % leftmark
+% \renewcommand{\sectionmark}[1]{\markright{\thesection #1}{}} % rightmark
+
+
+%
+% ---------------------------------------------------------------------------- %
+\allowdisplaybreaks[4]
+\renewcommand\Authfont{\fontsize{14}{14.4}\selectfont}
+\renewcommand\Affilfont{\fontsize{10}{10.8}\itshape}
+\renewcommand{\baselinestretch}{1.2}
+\renewcommand{\bibname}{参考文献}
+% ---------------------------------------------------------------------------- %
+
+
+% number figures, tables and equations within the sections
+% ---------------------------------------------------------------------------- %
+\numberwithin{equation}{section}
+\numberwithin{figure}{section}
+\numberwithin{table}{section}
+% ---------------------------------------------------------------------------- %
+
+
+% Logic and proofs
+% ---------------------------------------------------------------------------- %
+\theoremstyle{definition}
+% \newtheorem{definition}{Definition}[section]
+% \newtheorem{theorem}{Theorem}[section]
+% \newtheorem{corollary}[theorem]{Corollary}
+% \newtheorem{lemma}[theorem]{Lemma}
+% \newtheorem{proposition}[theorem]{Proposition}
+% \newtheorem{example}{Example}[chapter]
+% \newtheorem{exercise}{Exercise}[chapter]
+\newtheorem{definition}{定義}[section]
+\newtheorem{theorem}{定理}[section]
+\newtheorem{corollary}[theorem]{系}
+\newtheorem{lemma}[theorem]{補題}
+\newtheorem{proposition}[theorem]{命題}
+\newtheorem{example}{例}[chapter]
+\newtheorem{exercise}{問題}[chapter]
+
+\renewcommand{\proofname}{\textbf{証明}}
+\renewcommand\qedsymbol{$\blacksquare$}
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+% ---------------------------------------------------------------------------- %
+
+
+% Latin abbreviations
+% ---------------------------------------------------------------------------- %
+\newcommand{\etal}{\text{et al.}}
+\newcommand{\eg}{\text{e.g. }}
+\newcommand{\cf}{\text{c.f. }}
+\newcommand{\ie}{\text{i.e. }}
+\newcommand{\etc}{\text{etc.}}
+% ---------------------------------------------------------------------------- %
+
+
+% math
+% ---------------------------------------------------------------------------- %
+% mathbb capital letters
+\newcommand{\bbA}{\mathbb{A}}
+\newcommand{\bbB}{\mathbb{B}}
+\newcommand{\bbC}{\mathbb{C}}
+\newcommand{\bbD}{\mathbb{D}}
+\newcommand{\bbE}{\mathbb{E}}
+\newcommand{\bbF}{\mathbb{F}}
+\newcommand{\bbG}{\mathbb{G}}
+\newcommand{\bbH}{\mathbb{H}}
+\newcommand{\bbI}{\mathbb{I}}
+\newcommand{\bbJ}{\mathbb{J}}
+\newcommand{\bbK}{\mathbb{K}}
+\newcommand{\bbL}{\mathbb{L}}
+\newcommand{\bbM}{\mathbb{M}}
+\newcommand{\bbN}{\mathbb{N}}
+\newcommand{\bbO}{\mathbb{O}}
+\newcommand{\bbP}{\mathbb{P}}
+\newcommand{\bbQ}{\mathbb{Q}}
+\newcommand{\bbR}{\mathbb{R}}
+\newcommand{\bbS}{\mathbb{S}}
+\newcommand{\bbT}{\mathbb{T}}
+\newcommand{\bbU}{\mathbb{U}}
+\newcommand{\bbV}{\mathbb{V}}
+\newcommand{\bbW}{\mathbb{W}}
+\newcommand{\bbX}{\mathbb{X}}
+\newcommand{\bbY}{\mathbb{Y}}
+\newcommand{\bbZ}{\mathbb{Z}}
+
+% \mathrm capital letters
+\newcommand{\rmA}{\mathrm{A}}
+\newcommand{\rmB}{\mathrm{B}}
+\newcommand{\rmC}{\mathrm{C}}
+\newcommand{\rmD}{\mathrm{D}}
+\newcommand{\rmE}{\mathrm{E}}
+\newcommand{\rmF}{\mathrm{F}}
+\newcommand{\rmG}{\mathrm{G}}
+\newcommand{\rmH}{\mathrm{H}}
+\newcommand{\rmI}{\mathrm{I}}
+\newcommand{\rmJ}{\mathrm{J}}
+\newcommand{\rmK}{\mathrm{K}}
+\newcommand{\rmL}{\mathrm{L}}
+\newcommand{\rmM}{\mathrm{M}}
+\newcommand{\rmN}{\mathrm{N}}
+\newcommand{\rmO}{\mathrm{O}}
+\newcommand{\rmP}{\mathrm{P}}
+\newcommand{\rmQ}{\mathrm{Q}}
+\newcommand{\rmR}{\mathrm{R}}
+\newcommand{\rmS}{\mathrm{S}}
+\newcommand{\rmT}{\mathrm{T}}
+\newcommand{\rmU}{\mathrm{U}}
+\newcommand{\rmV}{\mathrm{V}}
+\newcommand{\rmW}{\mathrm{W}}
+\newcommand{\rmX}{\mathrm{X}}
+\newcommand{\rmY}{\mathrm{Y}}
+\newcommand{\rmZ}{\mathrm{Z}}
+
+% \mathcal capital letters
+\newcommand{\calA}{\mathcal{A}}
+\newcommand{\calB}{\mathcal{B}}
+\newcommand{\calC}{\mathcal{C}}
+\newcommand{\calD}{\mathcal{D}}
+\newcommand{\calE}{\mathcal{E}}
+\newcommand{\calF}{\mathcal{F}}
+\newcommand{\calG}{\mathcal{G}}
+\newcommand{\calH}{\mathcal{H}}
+\newcommand{\calI}{\mathcal{I}}
+\newcommand{\calJ}{\mathcal{J}}
+\newcommand{\calK}{\mathcal{K}}
+\newcommand{\calL}{\mathcal{L}}
+\newcommand{\calM}{\mathcal{M}}
+\newcommand{\calN}{\mathcal{N}}
+\newcommand{\calO}{\mathcal{O}}
+\newcommand{\calP}{\mathcal{P}}
+\newcommand{\calQ}{\mathcal{Q}}
+\newcommand{\calR}{\mathcal{R}}
+\newcommand{\calS}{\mathcal{S}}
+\newcommand{\calT}{\mathcal{T}}
+\newcommand{\calU}{\mathcal{U}}
+\newcommand{\calV}{\mathcal{V}}
+\newcommand{\calW}{\mathcal{W}}
+\newcommand{\calX}{\mathcal{X}}
+\newcommand{\calY}{\mathcal{Y}}
+\newcommand{\calZ}{\mathcal{Z}}
+
+% mathrm
+\newcommand{\const}{\mathrm{const.}}
+\newcommand{\hc}{\mathrm{h.c.}}
+\newcommand{\lhs}{\mathrm{(LHS)}}
+\newcommand{\rhs}{\mathrm{(RHS)}}
+\newcommand{\Haar}{\mathrm{Haar}}
+\newcommand{\poly}{\mathrm{poly}}
+\newcommand{\SWAP}{\mathrm{SWAP}}
+\newcommand{\CNOT}{\mathrm{CNOT}}
+\newcommand{\CZ}{\mathrm{CZ}}
+
+% MathOperator
+\DeclareMathOperator*{\argmin}{arg~min}
+\DeclareMathOperator*{\argmax}{arg~max}
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\Supp}{Supp}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\E}{E}
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\Cov}{Cov}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\End}{End}
+
+% others
+\renewcommand{\bar}[1]{\overline{#1}}
+\newcommand{\combi}[2]{{}_{#1}\text{C}_{#2}}
+\newcommand{\dg}{^\dagger}
+\newcommand{\T}{^\mathsf{T}}
+\newcommand{\prm}{^\prime}
+\newcommand{\fa}{{}^\forall}
+\newcommand{\ex}{{}^\exists}
+\newcommand{\pd}{\partial}
+\newcommand{\vt}{\,\|\,}
+\newcommand{\bs}{\boldsymbol}
+\newcommand{\ot}{\otimes}
+\newcommand{\otn}[1]{^{\otimes {#1}}}
+\newcommand{\kten}[2]{\ket{#1}\otimes\ket{#2}}
+\newcommand{\bten}[2]{\bra{#1}\otimes\bra{#2}}
+\newcommand{\memo}[1]{\textcolor{red}{(#1)}}
+\renewcommand{\th}{\theta}
+\usepackage{dsfont}
+\newcommand{\bbid}{\mathds{1}}
+
+% quantikz table
+% https://tex.stackexchange.com/questions/530954/quantikz-circuit-diagrams-inside-table
+\newcommand\qthead[3]{\makebox[150pt][c]{\textbf{#1}}\makebox[150pt][c]{\textbf{#2}}\makebox[150pt][c]{\textbf{#3}}\smallskip\hrule\medskip}
+\newcommand\qtline[3]{\makebox[150pt][c]{#1}\makebox[150pt][c]{#2}\makebox[150pt][c]{#3}\medskip}
+\newenvironment{qtab}{\par\bigskip\bgroup\parindent32pt\obeylines}{\egroup\bigskip}
+% ---------------------------------------------------------------------------- %
+
+
+% physics
+% ---------------------------------------------------------------------------- %
+% matrix
+\newcommand{\paulii}{\mqty[\pmat{0}]}
+\newcommand{\paulix}{\mqty[\pmat{1}]}
+\newcommand{\pauliy}{\mqty[\pmat{2}]}
+\newcommand{\pauliz}{\mqty[\pmat{3}]}
+
+\newcommand{\rx}[1]{ \mqty[\cos \frac{#1}{2} & -i\sin\frac{#1}{2} \\ -i\sin \frac{#1}{2}& \cos\frac{#1}{2} ]}
+\newcommand{\ry}[1]{ \mqty[\cos \frac{#1}{2} & -\sin\frac{#1}{2}  \\ \sin \frac{#1}{2}  & \cos\frac{#1}{2} ]}
+\newcommand{\rz}[1]{ \mqty[e^{-i{#1}/2}      & 0                  \\ 0                  & e^{i{#1}/2}     ]}
+\newcommand{\rot}[1]{\mqty[\cos {#1}         & -\sin {#1}         \\ \sin {#1}          & \cos {#1} ]}
+
+\newcommand{\hadamard}{\frac{1}{\sqrt{2}}\mqty[1 & 1 \\ 1 & -1]}
+\newcommand{\phaseg}{\mqty[1 & 0 \\ 0 & i]}
+\newcommand{\tg}{\mqty[1 & 0 \\ 0 & e^{i\pi/4}]}
+\newcommand{\mswap}{\mqty[1 & 0 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 0 & 1]}
+\newcommand{\mcnot}{\mqty[1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 0 & 1 \\ 0 & 0 & 1 & 0]}
+\newcommand{\mcz}{\mqty[1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & -1]}
+
+% sin cos
+\newcommand{\sif}[2]{\sin\qty(\frac{#1}{#2})}
+\newcommand{\cof}[2]{\cos\qty(\frac{#1}{#2})}
+
+% spin
+\newcommand{\up}{\uparrow} %spin up
+\newcommand{\down}{\downarrow} %spin down
+\newcommand{\szero}{\mqty[1 \\ 0]} %spin zero
+\newcommand{\sone}{\mqty[0 \\ 1]} %spin one
+% ---------------------------------------------------------------------------- %
+
+% ref; https://github.com/SSoelvsten/latex-preamble-and-examples/tree/main/documents

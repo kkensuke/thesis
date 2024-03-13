@@ -1,0 +1,59 @@
+\documentclass[11pt,dvipdfmx]{jreport}
+\input{preamble}
+
+% local definitions
+\usepackage[skip=8pt]{caption}
+\usepackage{okumacro}
+\newcommand{\HS}{\mathrm{HS}}
+\newcommand{\wn}{\wireoverride{n}}
+
+\graphicspath{{img/}}
+
+\title{Barren Plateau}
+\author{Kensuke Kamisoyama}
+\affil{Department of Physics, Graduate School of Science, The University of Tokyo,\\7-3-1 Hongo, Bunkyo-ku, Tokyo 113-0033, Japan}
+\date{}
+
+
+\begin{document}
+% \maketitle
+\pagenumbering{arabic}
+
+\newpage
+\input{chapters/0-title.tex}
+\newpage
+\input{chapters/0-abstract.tex}
+\newpage
+\tableofcontents
+\newpage
+\input{chapters/0-symbols.tex}
+\newpage
+\pagestyle{fancy}
+\input{chapters/1-intro.tex}
+\newpage
+\input{chapters/2-basics.tex}
+\newpage
+\input{chapters/3-vqa.tex}
+\newpage
+\input{chapters/4-haar.tex}
+\newpage
+\input{chapters/5-upper-bound.tex}
+\newpage
+\input{chapters/6-lower-bound.tex}
+\newpage
+\input{chapters/7-summary.tex}
+\newpage
+\input{chapters/8-acknowledge.tex}
+
+\newpage
+% \bibliographystyle{unsrt}
+% \bibliography{ref}
+\printbibliography[title=参考文献] % biblatex
+
+\newpage
+\appendix
+\input{chapters/9-appendix-chap3.tex}
+\input{chapters/9-appendix-chap5.tex}
+\input{chapters/9-appendix-chap6.tex}
+
+\end{document}

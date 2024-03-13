@@ -1,0 +1,93 @@
+\chapter*{記号リスト}
+\addcontentsline{toc}{chapter}{記号リスト}
+\vspace{-30pt}
+\begin{tabular}{c p{1\textwidth}}
+    $\bbN$ & 自然数 \\
+    $\bbR$ & 実数 \\
+    $\bbC$ & 複素数 \\
+    $\delta_{ij}$ & Kronecker のデルタ \\
+    $\bs{x}, \bs{\th}$ & 実数ベクトル\\
+    $n$ & 量子ビット数 \\
+    $L$ & 量子回路の層数 \\
+    $d, 2^n$ & $n$ 量子ビットの系の次元 \\
+    $\bbid$ & 単位行列 \\
+    $U,V,W$ & ユニタリ \\
+    % $F(\cdot,\cdot)$ & 忠実度 \\
+    $\calU(d)$ & $d\times d$ 次元のユニタリ群 \\
+    $\bbU$ & $\calU(d)$ の部分集合 \\
+    $\calH$ & Hilbert 空間 \\
+    $\rho, \sigma$ & 密度演算子 \\
+    $\rho^{(\cdot)}$ & 縮約密度演算子 \\
+    $\calS(\calH)$ & $\calH$ 上の密度演算子の集合 \\
+    $\calL(\calH)$ & $\calH$ 上のベクトルに作用する線形演算子の集合 \\
+    $\bbid,X,Y,Z;\;P_0,P_1,P_2,P_3$ & Pauli 行列 \\
+    $\calP$ & Pauli 群 \\
+    $\calC$ & Clifford 群 \\
+    $\calE$ & ユニタリチャネル \\
+    $\calN$ & ノイズチャネル \\
+    $\calL$ & 量子機械学習におけるコスト関数 \\
+    $\kappa(\cdot,\cdot)$ & カーネル \\
+    $O$ & オブザーバブル \\
+    $\calO$ & Big-O 記法 \\
+    $i,j,k,l,p,q$ & 添字 \\
+    $\bs{i},\bs{j},\bs{p},\bs{q}$ & ベクトル添字 \\
+    $\calF$ & フレームポテンシャル \\
+    $\epsilon_\bbU$ & 量子回路の表現力 \\
+    $\mu_{\Haar}$ & Haar 測度 \\
+    $\norm{\cdot}_p$ & Schatten $p$--ノルム \\
+    $D_{\HS}(\cdot,\cdot)$ & Hilbert--Schmidt 距離 \\
+\end{tabular}
+
+
+
+% \chapter*{Glossary of Acronyms and Abbreviations}
+% \addcontentsline{toc}{chapter}{Glossay of Acronyms and Abbreviations}
+% \vfill
+% \begin{tabular}{c p{1\textwidth}}
+%     ML & Machine Learning \\
+%     HHL & Harrow-Hassidim-Lloyd algorithm \\
+%     QFT & Quantum Fourier Transform \\
+%     QPE & Quantum Phase Estimation \\
+%     PCA & Principal Component Analysis \\
+%     TN & Tensor Network \\
+%     MPS & Matrix Product State \\
+%     QML & Quantum machine Learning \\
+%     VQE & Variational Quantum Eigensolver \\
+%     VQA & Variational Quantum Algorithm \\
+%     QAOA & Quantum Approximate Optimization Algorithm \\
+%     QNN & Quantum Neural Network \\
+%     PQC & Parametrized quantum circuit \\
+%     QCL & Quantum Circuit Learning \\
+%     HEA & Hardware Efficient Ansatz \\
+%     ALT & Alternating layered ansatz \\
+%     SPSA & Simultaneous Perturbation Stochastic Approximation \\
+%     BP & Barren Plateau \\
+%     RKHS & Reproducing Kernel Hilbert Space \\
+%     SVM & Support Vector Machine \\
+%     SGD & Stochastic Gradient Descent \\
+% \end{tabular}
+% \vfill
+
+
+
+\newgeometry{top=0truemm,bottom=20truemm,left=20truemm,right=20truemm}
+\chapter*{量子ゲート}
+\vspace{-40pt}
+\addcontentsline{toc}{chapter}{量子ゲート}
+\begin{qtab}% no line break in \qtline
+    \qthead {Name}           {Circuit}                                                   {Matrix}
+    \qtline {Identity}       {\begin{quantikz}& \gate{\bbid} & \qw \end{quantikz}}           {$\paulii$}
+    \qtline {Pauli-$X$}      {\begin{quantikz}& \gate{X} & \qw \end{quantikz}}           {$\paulix$}
+    \qtline {Pauli-$Y$}      {\begin{quantikz}& \gate{Y} & \qw \end{quantikz}}           {$\pauliy$}
+    \qtline {Pauli-$Z$}      {\begin{quantikz}& \gate{Z} & \qw \end{quantikz}}           {$\pauliz$}
+    \qtline {Hadamard}       {\begin{quantikz}& \gate{H} & \qw \end{quantikz}}           {$\hadamard$}
+    \qtline {Phase}          {\begin{quantikz}& \gate{S} & \qw \end{quantikz}}           {$\phaseg$}
+    \qtline {T}              {\begin{quantikz}& \gate{T} & \qw \end{quantikz}}           {$\tg$}
+    \qtline {$x$-rotation}   {\begin{quantikz}& \gate{R_x(\th)} & \qw \end{quantikz}} {$\rx{\th}$}
+    \qtline {$y$-rotation}   {\begin{quantikz}& \gate{R_y(\th)} & \qw \end{quantikz}} {$\ry{\th}$}
+    \qtline {$z$-rotation}   {\begin{quantikz}& \gate{R_z(\th)} & \qw \end{quantikz}} {$\rz{\th}$}
+    \qtline {CX, CNOT} {\begin{quantikz}& \ctrl{1} & \qw \\ & \targ{}  & \qw \end{quantikz}} {$\mcnot$}
+    \qtline {SWAP}           {\begin{quantikz}& \swap{1} & \qw \\ & \targX{} & \qw \end{quantikz}} {$\mswap$}
+    \qtline {CZ} {\begin{quantikz}& \ctrl{1} & \qw \\ & \gate{Z} & \qw \end{quantikz}} {$\mcz$}
+\end{qtab}
+\restoregeometry
